@@ -1,6 +1,9 @@
 // Copyright 2022 NNTU-CS
 #include "tree.h"
+
 #include <algorithm>
+#include <cstdint>
+#include <vector>
 
 Node::Node(char val) : value(val) {}
 
@@ -37,7 +40,8 @@ PMTree::~PMTree() {
     delete root;
 }
 
-void dfs_all(Node* node, std::vector<char>& current, std::vector<std::vector<char>>& result) {
+void dfs_all(Node* node, std::vector<char>& current,
+    std::vector<std::vector<char>>& result) {
     if (node->value != '\0') {
         current.push_back(node->value);
     }
@@ -65,7 +69,8 @@ std::vector<std::vector<char>> getAllPerms(PMTree& tree) {
     return result;
 }
 
-void dfs_kth(Node* node, std::vector<char>& current, int& k, std::vector<char>& result) {
+void dfs_kth(Node* node, std::vector<char>& current, int& k,
+    std::vector<char>& result) {
     if (!result.empty()) return;
 
     if (node->value != '\0') {
@@ -99,8 +104,8 @@ std::vector<char> getPerm1(PMTree& tree, int num) {
     return result;
 }
 
-long long factorial(int n) {
-    long long f = 1;
+int64_t factorial(int n) {
+    int64_t f = 1;
     for (int i = 2; i <= n; ++i) f *= i;
     return f;
 }
@@ -109,7 +114,7 @@ std::vector<char> getPerm2(PMTree& tree, int num) {
     std::vector<char> result;
     if (tree.size == 0) return result;
 
-    long long total_perms = factorial(tree.size);
+    int64_t total_perms = factorial(tree.size);
     if (num < 1 || num > total_perms) return result;
 
     Node* current = tree.root;
@@ -117,7 +122,7 @@ std::vector<char> getPerm2(PMTree& tree, int num) {
     int k = num - 1;
 
     while (!current->children.empty()) {
-        long long perms_per_branch = factorial(n - 1);
+        int64_t perms_per_branch = factorial(n - 1);
         int index = k / static_cast<int>(perms_per_branch);
         k = k % static_cast<int>(perms_per_branch);
 
