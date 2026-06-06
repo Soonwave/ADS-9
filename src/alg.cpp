@@ -1,9 +1,9 @@
 // Copyright 2022 NNTU-CS
-#include "tree.h"
-
 #include <algorithm>
 #include <cstdint>
 #include <vector>
+
+#include "tree.h"
 
 Node::Node(char val) : value(val) {}
 
@@ -41,15 +41,14 @@ PMTree::~PMTree() {
 }
 
 void dfs_all(Node* node, std::vector<char>& current,
-    std::vector<std::vector<char>>& result) {
+             std::vector<std::vector<char>>& result) {
     if (node->value != '\0') {
         current.push_back(node->value);
     }
 
     if (node->children.empty() && node->value != '\0') {
         result.push_back(current);
-    }
-    else {
+    } else {
         for (Node* child : node->children) {
             dfs_all(child, current, result);
         }
@@ -70,7 +69,7 @@ std::vector<std::vector<char>> getAllPerms(PMTree& tree) {
 }
 
 void dfs_kth(Node* node, std::vector<char>& current, int& k,
-    std::vector<char>& result) {
+             std::vector<char>& result) {
     if (!result.empty()) return;
 
     if (node->value != '\0') {
@@ -82,8 +81,7 @@ void dfs_kth(Node* node, std::vector<char>& current, int& k,
         if (k == 0) {
             result = current;
         }
-    }
-    else {
+    } else {
         for (Node* child : node->children) {
             dfs_kth(child, current, k, result);
         }
